@@ -4,6 +4,8 @@ A fast, minimalist typing test web app. Pick a mode, start typing, and your spee
 raw speed, and consistency are measured in real time. Results and settings are stored locally in
 your browser — no account required.
 
+![play_demo](luminotype-demo.gif)
+
 Modes: `quote`, `time`, `words`, and `zen` (free typing). Press **Tab** to restart, **Enter** to
 finish a zen run.
 
