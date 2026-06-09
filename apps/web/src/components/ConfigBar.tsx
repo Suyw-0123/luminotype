@@ -21,7 +21,7 @@ function Pill({
   return (
     <button
       onClick={onClick}
-      className={`px-2 py-0.5 text-sm transition-colors ${
+      className={`whitespace-nowrap px-2 py-0.5 text-sm transition-colors ${
         active ? 'text-main' : 'text-sub hover:text-text'
       }`}
     >
@@ -33,10 +33,25 @@ function Pill({
 export function ConfigBar() {
   const c = useConfigStore();
 
+  // Punctuation/numbers only affect generated words, so they're for these modes only.
+  const showWordOptions = c.mode === 'time' || c.mode === 'words';
+
   return (
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded bg-sub-alt px-4 py-2 text-text">
-      {/* Punctuation/numbers only affect generated words, not fixed quotes. */}
-      {c.mode !== 'quote' && (
+    // Fixed width and height so the bar never resizes; modes stay on the left.
+    <div className="mx-auto flex h-10 w-full max-w-2xl items-center gap-4 overflow-hidden rounded bg-sub-alt px-4 text-text">
+      {/* Left: mode selector. */}
+      <div className="flex items-center gap-1">
+        {MODES.map((m) => (
+          <Pill key={m} active={c.mode === m} onClick={() => c.setMode(m)}>
+            {m}
+          </Pill>
+        ))}
+      </div>
+
+      <span className="text-sub">|</span>
+
+      {/* Punctuation/numbers + separator: only for time/words. */}
+      {showWordOptions && (
         <>
           <div className="flex items-center gap-1">
             <Pill active={c.punctuation} onClick={c.togglePunctuation}>
@@ -51,16 +66,7 @@ export function ConfigBar() {
         </>
       )}
 
-      <div className="flex items-center gap-1">
-        {MODES.map((m) => (
-          <Pill key={m} active={c.mode === m} onClick={() => c.setMode(m)}>
-            {m}
-          </Pill>
-        ))}
-      </div>
-
-      <span className="text-sub">|</span>
-
+      {/* Per-mode options. */}
       <div className="flex items-center gap-1">
         {c.mode === 'time' &&
           TIME_OPTIONS.map((t) => (

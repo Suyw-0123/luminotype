@@ -1,7 +1,8 @@
 import { useResultsStore } from '../store/resultsStore';
 
 function formatDate(ts: number): string {
-  return new Date(ts).toLocaleString();
+  // Force English regardless of the browser's locale.
+  return new Date(ts).toLocaleString('en-US');
 }
 
 export function StatsPage() {

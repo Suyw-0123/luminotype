@@ -4,6 +4,9 @@ import { fetchWords, fetchQuote } from '../lib/api';
 import type { EngineConfig } from '../engine/useTypingEngine';
 import { TypingArea } from './TypingArea';
 
+// The only language with seeded quotes.
+const QUOTE_LANGUAGE = 'english';
+
 /**
  * Loads the corpus (word pool / quote) for the active config, then renders the
  * typing area. A `key` derived from the loaded content remounts the engine when
@@ -32,7 +35,9 @@ export function TypingTest() {
         if (cancelled) return;
         setPool(words);
         if (needsQuote) {
-          const quote = await fetchQuote(config.language, config.quoteLength);
+          // Quotes are only seeded for English; the word-list language (e.g.
+          // english_1k) only affects generated words, not quotes.
+          const quote = await fetchQuote(QUOTE_LANGUAGE, config.quoteLength);
           if (cancelled) return;
           setQuoteText(quote.text);
         } else {

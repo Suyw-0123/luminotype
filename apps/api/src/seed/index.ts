@@ -26,7 +26,6 @@ async function readJson<T>(file: string): Promise<T> {
 /** Word source file per language code. */
 const WORD_SOURCES: Record<string, string> = {
   english: 'english.json',
-  english_1k: 'english.json',
 };
 
 async function seed() {
@@ -53,6 +52,17 @@ async function seed() {
       );
     }
     console.log(`Seeded ${list.length} words for "${lang.code}".`);
+  }
+
+  // Drop any languages no longer in the seed (e.g. a removed english_1k),
+  // clearing their words first to satisfy the foreign key.
+  const seedCodes = new Set(langs.map((l) => l.code));
+  const existing = await db.select({ code: languages.code }).from(languages);
+  for (const { code } of existing) {
+    if (seedCodes.has(code)) continue;
+    await db.delete(words).where(eq(words.languageCode, code));
+    await db.delete(languages).where(eq(languages.code, code));
+    console.log(`Removed stale language "${code}".`);
   }
 
   // Quotes — currently english only.
