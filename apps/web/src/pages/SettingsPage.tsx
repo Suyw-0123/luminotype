@@ -1,6 +1,8 @@
 import { useConfigStore } from '../store/configStore';
 import { themes } from '../themes/themes';
 
+const VISIBLE_LINE_OPTIONS = [3, 5, 7, 10];
+
 export function SettingsPage() {
   const c = useConfigStore();
 
@@ -25,17 +27,22 @@ export function SettingsPage() {
         </div>
       </section>
 
-      <section className="flex items-center gap-2">
-        <input
-          id="sound"
-          type="checkbox"
-          checked={c.sound}
-          onChange={c.toggleSound}
-          className="h-4 w-4"
-        />
-        <label htmlFor="sound" className="text-text">
-          sound on keypress
-        </label>
+      <section className="flex flex-col gap-2">
+        <h2 className="text-sub">visible lines</h2>
+        <p className="text-sm text-sub">How many lines of text stay in view while typing.</p>
+        <div className="flex flex-wrap gap-2">
+          {VISIBLE_LINE_OPTIONS.map((n) => (
+            <button
+              key={n}
+              onClick={() => c.setVisibleLines(n)}
+              className={`rounded border px-3 py-1 ${
+                c.visibleLines === n ? 'border-main text-main' : 'border-sub text-text'
+              }`}
+            >
+              {n}
+            </button>
+          ))}
+        </div>
       </section>
     </div>
   );

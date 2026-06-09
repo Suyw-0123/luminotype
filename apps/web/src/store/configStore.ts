@@ -12,7 +12,7 @@ interface ConfigState {
   punctuation: boolean;
   numbers: boolean;
   theme: string;
-  sound: boolean;
+  visibleLines: number;
 
   setMode: (mode: TestMode) => void;
   setTime: (time: TimeOption) => void;
@@ -22,7 +22,7 @@ interface ConfigState {
   togglePunctuation: () => void;
   toggleNumbers: () => void;
   setTheme: (theme: string) => void;
-  toggleSound: () => void;
+  setVisibleLines: (lines: number) => void;
 }
 
 export const useConfigStore = create<ConfigState>()(
@@ -36,7 +36,7 @@ export const useConfigStore = create<ConfigState>()(
       punctuation: false,
       numbers: false,
       theme: DEFAULT_THEME_ID,
-      sound: false,
+      visibleLines: 3,
 
       setMode: (mode) => set({ mode }),
       setTime: (time) => set({ time }),
@@ -46,7 +46,7 @@ export const useConfigStore = create<ConfigState>()(
       togglePunctuation: () => set((s) => ({ punctuation: !s.punctuation })),
       toggleNumbers: () => set((s) => ({ numbers: !s.numbers })),
       setTheme: (theme) => set({ theme }),
-      toggleSound: () => set((s) => ({ sound: !s.sound })),
+      setVisibleLines: (visibleLines) => set({ visibleLines }),
     }),
     { name: 'luminotype-config' },
   ),

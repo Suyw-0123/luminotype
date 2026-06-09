@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useTypingEngine, type EngineConfig } from '../engine/useTypingEngine';
 import { useResultsStore } from '../store/resultsStore';
 import { useUiStore } from '../store/uiStore';
+import { useConfigStore } from '../store/configStore';
 import { WordsDisplay } from './WordsDisplay';
 import { StatBar } from './StatBar';
 import { Results } from './Results';
@@ -16,6 +17,7 @@ export function TypingArea({ config, onRequestNewTest }: TypingAreaProps) {
   const engine = useTypingEngine(config);
   const addResult = useResultsStore((s) => s.addResult);
   const setFocusMode = useUiStore((s) => s.setFocusMode);
+  const visibleLines = useConfigStore((s) => s.visibleLines);
   const savedRef = useRef<number | null>(null);
 
   const isRunning = engine.status === 'running';
@@ -75,6 +77,7 @@ export function TypingArea({ config, onRequestNewTest }: TypingAreaProps) {
         currentInput={engine.currentInput}
         wordIndex={engine.wordIndex}
         freeMode={config.mode === 'zen'}
+        visibleLines={visibleLines}
       />
       <p className="text-center text-sm text-sub">
         {config.mode === 'zen' ? 'press enter to finish · tab to restart' : 'press tab to restart'}

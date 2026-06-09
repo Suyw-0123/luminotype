@@ -7,10 +7,14 @@ export function AboutPage() {
         speed, and consistency are measured in real time. Results are stored locally in your
         browser.
       </p>
-      <p className="max-w-prose text-sub">
-        Built with React, Vite, Tailwind, Hono, and PostgreSQL. Press <kbd>tab</kbd> at any time to
-        restart a test.
-      </p>
+      <a
+        href="https://github.com/Suyw-0123/luminotype"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-sub underline transition-colors hover:text-main"
+      >
+        Source on GitHub
+      </a>
     </div>
   );
 }

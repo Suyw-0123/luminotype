@@ -8,12 +8,12 @@ interface WordsDisplayProps {
   wordIndex: number;
   /** Free typing (zen): render the user's own text with no target to compare against. */
   freeMode?: boolean;
+  /** Number of text lines kept visible at once. */
+  visibleLines?: number;
 }
 
 /** Words rendered ahead of the active one (keeps the DOM bounded). */
 const WINDOW = 120;
-/** Number of text lines kept visible at once. */
-const VISIBLE_LINES = 10;
 
 export function WordsDisplay({
   words,
@@ -21,6 +21,7 @@ export function WordsDisplay({
   currentInput,
   wordIndex,
   freeMode,
+  visibleLines = 3,
 }: WordsDisplayProps) {
   const innerRef = useRef<HTMLDivElement>(null);
   const [offset, setOffset] = useState(0);
@@ -62,7 +63,7 @@ export function WordsDisplay({
   return (
     <div
       className="relative h-[7.5rem] overflow-hidden sm:h-[9.5rem]"
-      style={lineHeight ? { height: lineHeight * VISIBLE_LINES } : undefined}
+      style={lineHeight ? { height: lineHeight * visibleLines } : undefined}
     >
       <div
         ref={innerRef}
