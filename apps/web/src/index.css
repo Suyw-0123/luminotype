@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Fallback theme values (light); overwritten at runtime by applyTheme(). */
+  --bg-color: #eeeeee;
+  --main-color: #444444;
+  --caret-color: #444444;
+  --sub-color: #aaaaaa;
+  --sub-alt-color: #e0e0e0;
+  --text-color: #333333;
+  --error-color: #da3333;
+  --error-extra-color: #791717;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Blinking caret rendered inside the active word. */
+.caret {
+  display: inline-block;
+  width: 0;
+  border-left: 2px solid var(--caret-color);
+  margin-left: -1px;
+  margin-right: -1px;
+  animation: caret-blink 1s steps(1) infinite;
+}
+
+@keyframes caret-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+kbd {
+  background-color: var(--sub-alt-color);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: inherit;
+}
