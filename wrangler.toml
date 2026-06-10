@@ -1,0 +1,6 @@
+# Cloudflare Pages config. The Git integration's dashboard build settings drive
+# CI/CD (see docs/wiki/deployment.md); this file pins the runtime + output dir
+# and lets `wrangler pages deploy` work locally.
+name = "luminotype"
+pages_build_output_dir = "apps/web/dist"
+compatibility_date = "2025-01-01"

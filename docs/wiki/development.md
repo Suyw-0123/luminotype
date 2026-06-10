@@ -4,19 +4,14 @@
 
 - Node.js >= 20
 - pnpm 10 — `corepack enable`
-- Docker + Docker Compose (for PostgreSQL during local dev)
+
+There's no database to run: the word/quote corpus is read-only JSON (see
+[Content corpus](./content.md)).
 
 ## First-time setup
 
 ```bash
 pnpm install
-
-# Start PostgreSQL (published on localhost:5432)
-docker compose up -d db
-
-# Apply migrations and seed the corpus
-pnpm db:migrate
-pnpm seed
 
 # Run web (http://localhost:5173) + api (http://localhost:3001) together
 pnpm dev
@@ -27,16 +22,13 @@ the frontend uses the same-origin `/api` path in both dev and prod.
 
 ## Workspace scripts (run from the repo root)
 
-| Script             | Description                                           |
-| ------------------ | ----------------------------------------------------- |
-| `pnpm dev`         | Run web + api in watch mode                           |
-| `pnpm build`       | Build `shared`, then `api`, then `web` for production |
-| `pnpm test`        | Run all unit/integration tests (Vitest)               |
-| `pnpm lint`        | ESLint + Prettier check                               |
-| `pnpm format`      | Apply Prettier formatting                             |
-| `pnpm db:generate` | Generate a Drizzle migration from the schema          |
-| `pnpm db:migrate`  | Apply migrations to the database                      |
-| `pnpm seed`        | Seed languages, word lists, and quotes                |
+| Script        | Description                                           |
+| ------------- | ----------------------------------------------------- |
+| `pnpm dev`    | Run web + api in watch mode                           |
+| `pnpm build`  | Build `shared`, then `api`, then `web` for production |
+| `pnpm test`   | Run all unit/integration tests (Vitest)               |
+| `pnpm lint`   | ESLint + Prettier check                               |
+| `pnpm format` | Apply Prettier formatting                             |
 
 Per-package scripts run with a filter, e.g. `pnpm --filter @luminotype/web build` or
 `pnpm --filter @luminotype/api typecheck`.

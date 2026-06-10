@@ -1,22 +1,9 @@
 import { serve } from '@hono/node-server';
-import { Hono } from 'hono';
-import { cors } from 'hono/cors';
-import { logger } from 'hono/logger';
-import { languagesRoute } from './routes/languages.js';
-import { quotesRoute } from './routes/quotes.js';
+import { createApiApp } from './app.js';
 
-const app = new Hono();
-
-app.use('*', logger());
-app.use('/api/*', cors());
-
-const api = new Hono();
-
-api.get('/health', (c) => c.json({ status: 'ok' }));
-api.route('/languages', languagesRoute);
-api.route('/quotes', quotesRoute);
-
-app.route('/api', api);
+// Node entry point for local development. Production runs the same app on
+// Cloudflare Pages Functions (see /functions/api/[[route]].ts).
+const app = createApiApp();
 
 const port = Number(process.env.PORT ?? 3001);
 

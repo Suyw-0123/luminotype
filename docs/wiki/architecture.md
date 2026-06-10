@@ -2,24 +2,26 @@
 
 ## Overview
 
-Luminotype is a typing test split into a static single-page frontend and a thin content API backed
-by PostgreSQL. There is no authentication: all per-user state (settings and results history) is kept
-in the browser's `localStorage`. The backend exists only to serve **shared content** — word lists
-and quotes — that benefits from living in a database.
+Luminotype is a typing test split into a static single-page frontend and a thin content API. There
+is no authentication and no database: all per-user state (settings and results history) is kept in
+the browser's `localStorage`, and the backend serves **shared content** — word lists and quotes —
+from read-only JSON bundled at build time.
 
 ```
-┌──────────────┐     /api/*      ┌──────────────┐     SQL      ┌──────────────┐
-│   Browser    │ ───────────────▶│   API (Hono) │ ────────────▶│  PostgreSQL  │
-│  (React SPA) │◀─────────────── │   word/quote │◀──────────── │  words/quotes│
-└──────────────┘   JSON DTOs     └──────────────┘   rows       └──────────────┘
+┌──────────────┐     /api/*      ┌──────────────┐    import    ┌──────────────┐
+│   Browser    │ ───────────────▶│   API (Hono) │ ────────────▶│  bundled     │
+│  (React SPA) │◀─────────────── │   word/quote │◀──────────── │  JSON corpus │
+└──────────────┘   JSON DTOs     └──────────────┘              └──────────────┘
        │
        ▼
   localStorage (settings + results history)
 ```
 
-In production an nginx container serves the built SPA and reverse-proxies `/api` to the API
-container, so the browser always talks to a single origin. In development, Vite's dev server proxies
-`/api` to the API process. See [Deployment](./deployment.md) and [Development](./development.md).
+The browser always talks to a single origin. On **Cloudflare Pages** the Hono app runs as a Pages
+Function at `/api/*` alongside the static assets; in **Docker** an nginx container serves the SPA and
+reverse-proxies `/api` to the Node API; in **development** Vite's dev server proxies `/api` to the API
+process. The Hono app (`createApiApp()`) is identical across all three. See
+[Deployment](./deployment.md) and [Development](./development.md).
 
 ## Monorepo layout
 
@@ -29,10 +31,12 @@ The repository is a [pnpm workspace](https://pnpm.io/workspaces).
 luminotype/
 ├── apps/
 │   ├── web/        @luminotype/web — React + Vite frontend
-│   └── api/        @luminotype/api — Hono API + Drizzle ORM
+│   └── api/        @luminotype/api — Hono content API (bundled JSON)
 ├── packages/
 │   └── shared/     @luminotype/shared — types shared by web and api
+├── functions/      Cloudflare Pages Function (serves the Hono app at /api/*)
 ├── docker-compose.yml
+├── wrangler.toml        Cloudflare Pages runtime config
 ├── tsconfig.base.json   shared TypeScript compiler options
 └── pnpm-workspace.yaml
 ```
@@ -44,9 +48,11 @@ luminotype/
   and result models (`CharCounts`, `TestResult`). Built with `tsc` to `dist/` and consumed by both
   apps via the `workspace:*` protocol. This is the single source of truth for the API contract.
 
-- **`@luminotype/api`** (`apps/api`) — A [Hono](https://hono.dev) server run on Node via
-  `@hono/node-server`. Talks to PostgreSQL through [Drizzle ORM](https://orm.drizzle.team) on the
-  `postgres-js` driver. Owns the database schema, migrations, and the seed data.
+- **`@luminotype/api`** (`apps/api`) — A [Hono](https://hono.dev) content API. `createApiApp()` in
+  `src/app.ts` is runtime-agnostic and reads the word/quote corpus from bundled JSON
+  (`src/data/`); `src/index.ts` serves it on Node via `@hono/node-server` for local dev and Docker,
+  and `functions/api/[[route]].ts` serves the same app on Cloudflare Pages. See
+  [Content corpus](./content.md).
 
 - **`@luminotype/web`** (`apps/web`) — A React 18 SPA built with Vite. Tailwind for styling, Zustand
   for persisted settings/results, and React Router for navigation. Contains the typing engine.
@@ -73,7 +79,7 @@ See [Typing Engine](./typing-engine.md) for step 3–4 and [API Reference](./api
 
 - **No backend persistence of results** keeps the system simple and privacy-friendly; the API is
   stateless and trivially cacheable.
-- **Postgres for the corpus** (rather than static JSON shipped to the client) lets word lists and
-  quotes grow, be queried by language/length, and be randomized server-side without bloating the
-  bundle.
+- **Bundled JSON instead of a database.** The corpus is small (~34 KB), read-only, and changes rarely,
+  so a database earned nothing but operational weight. Serving it from bundled JSON lets the whole API
+  run as a Cloudflare Pages Function for free with no DB to provision, while staying easy to grow.
 - **A monorepo with a shared package** gives end-to-end type safety with a single `pnpm install`.

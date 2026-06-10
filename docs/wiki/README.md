@@ -13,17 +13,16 @@ see the repository [`README.md`](../../README.md).
 | [Typing Engine](./typing-engine.md) | The performance-critical input loop, state machine, and stat math       |
 | [Frontend](./frontend.md)           | React app structure, theming, state stores, and the scrolling word view |
 | [API Reference](./api.md)           | HTTP endpoints, request/response shapes, and error behavior             |
-| [Database](./database.md)           | Schema, migrations, and the seeding pipeline                            |
+| [Content corpus](./content.md)      | The JSON word lists & quotes and how to extend them                     |
 | [Development](./development.md)     | Local setup, workspace scripts, and testing                             |
-| [Deployment](./deployment.md)       | Docker Compose topology and production build                            |
+| [Deployment](./deployment.md)       | Cloudflare Pages, Docker Compose, and GHCR images                       |
 
 ## At a glance
 
 - **Frontend** — React + Vite + TypeScript, Tailwind CSS (CSS-variable themes), Zustand, React Router
-- **Backend** — Hono + TypeScript content API (word lists & quotes)
-- **Database** — PostgreSQL via Drizzle ORM
+- **Backend** — Hono + TypeScript content API (word lists & quotes) over read-only bundled JSON
 - **Monorepo** — pnpm workspaces: `apps/web`, `apps/api`, `packages/shared`
-- **Deployment** — Docker Compose (Postgres + API + nginx-served frontend)
+- **Deployment** — Cloudflare Pages (static frontend + Hono Pages Function) or Docker Compose
 
 ## Design principles
 

@@ -17,7 +17,8 @@ COPY apps/api apps/api
 
 RUN pnpm --filter @luminotype/shared build \
   && pnpm --filter @luminotype/api build \
-  && cp -r apps/api/src/seed/data apps/api/dist/seed/data
+  && mkdir -p apps/api/dist/data \
+  && cp apps/api/src/data/*.json apps/api/dist/data/
 
 # ---------------------------------------------------------------------------
 FROM node:22-alpine AS runtime
@@ -31,5 +32,5 @@ COPY --from=build /app /app
 WORKDIR /app/apps/api
 EXPOSE 3001
 
-# On boot: apply migrations, (idempotently) seed, then serve.
-CMD ["sh", "-c", "node dist/db/migrate.js && node dist/seed/index.js && node dist/index.js"]
+# The corpus is bundled JSON — no database, no migrations. Just serve.
+CMD ["node", "dist/index.js"]

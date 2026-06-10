@@ -11,29 +11,27 @@ finish a zen run.
 
 ## Quick start
 
-Requires Node.js >= 20, pnpm 10 (`corepack enable`), and Docker.
+Requires Node.js >= 20 and pnpm 10 (`corepack enable`). There's no database — the word lists and
+quotes are read-only JSON bundled at build time.
 
 ```bash
 pnpm install
 
-# 1. Start PostgreSQL, apply migrations, seed the corpus
-docker compose up -d db
-pnpm db:migrate
-pnpm seed
-
-# 2. Run web (http://localhost:5173) + api (http://localhost:3001)
+# Run web (http://localhost:5173) + api (http://localhost:3001) together
 pnpm dev
 ```
 
 Or run the whole stack in containers:
 
 ```bash
-cp .env.example .env       # adjust credentials/ports if desired
 docker compose up --build  # then open http://localhost:8080
 ```
 
-Prebuilt images are published to GHCR on every push to `main` — see
-[Deployment](./docs/wiki/deployment.md).
+## Deployment
+
+The recommended target is **Cloudflare Pages**: the static frontend plus the Hono API as a Pages
+Function, with automatic CI/CD on every `git push`. Docker Compose and prebuilt GHCR images are
+available for self-hosting. See [Deployment](./docs/wiki/deployment.md).
 
 ## Documentation
 
@@ -45,9 +43,9 @@ Full technical documentation lives in the [`docs/wiki`](./docs/wiki/README.md):
 | [Typing Engine](./docs/wiki/typing-engine.md) | The performance-critical input loop, state machine, stats   |
 | [Frontend](./docs/wiki/frontend.md)           | React structure, theming, state stores, scrolling word view |
 | [API Reference](./docs/wiki/api.md)           | HTTP endpoints, request/response shapes, error behavior     |
-| [Database](./docs/wiki/database.md)           | Schema, migrations, and the seeding pipeline                |
+| [Content corpus](./docs/wiki/content.md)      | The JSON word lists & quotes and how to extend them         |
 | [Development](./docs/wiki/development.md)     | Local setup, workspace scripts, and testing                 |
-| [Deployment](./docs/wiki/deployment.md)       | Docker Compose topology, GHCR images, production build      |
+| [Deployment](./docs/wiki/deployment.md)       | Cloudflare Pages, Docker Compose, and GHCR images           |
 
 ## License
 

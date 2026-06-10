@@ -27,10 +27,7 @@ List available languages, ordered by name.
 **Response** — `Language[]`
 
 ```json
-[
-  { "code": "english", "name": "English" },
-  { "code": "english_1k", "name": "English 1k" }
-]
+[{ "code": "english", "name": "English" }]
 ```
 
 ### `GET /api/languages/:lang/words`
@@ -78,7 +75,7 @@ A single random quote, optionally filtered by length.
 }
 ```
 
-Randomization is done in SQL (`order by random() limit 1`).
+A random match is picked from the in-memory pool after filtering by language and optional length.
 
 **Errors**
 
