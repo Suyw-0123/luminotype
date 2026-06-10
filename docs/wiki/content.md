@@ -1,13 +1,17 @@
 # Content corpus
 
-Luminotype's word lists and quotes are **read-only JSON, bundled at build time** — there is no
-database. The corpus lives in `apps/api/src/data/` and is read by a small accessor module
-(`apps/api/src/data/index.ts`) that the Hono routes call directly. The same code runs on Node
-(local dev / Docker) and on Cloudflare Pages Functions.
+Luminotype's word lists and quotes are **read-only data, bundled at build time** — there is no
+database. The corpus lives in `apps/api/src/data/` as plain TS modules (`export default [...]`) and is
+read by a small accessor module (`apps/api/src/data/index.ts`) that the Hono routes call directly. The
+same code runs on Node (local dev / Docker) and on Cloudflare Pages Functions.
+
+> The data is stored as `.ts` rather than `.json` on purpose: importing JSON needs the
+> `with { type: 'json' }` import attribute, which not every bundler supports (notably the esbuild
+> version behind Cloudflare Pages Functions). Plain TS modules bundle everywhere with no attributes.
 
 ## Data layer
 
-`apps/api/src/data/index.ts` imports the JSON and exposes three things:
+`apps/api/src/data/index.ts` imports the data modules and exposes three things:
 
 ```ts
 export const languages: Language[]; // the languages list
@@ -22,31 +26,31 @@ export function getRandomQuote(lang, length?): Quote | null; // random, optional
 
 ## Data files
 
-| File                       | Shape                        | Contents                                |
-| -------------------------- | ---------------------------- | --------------------------------------- |
-| `data/languages.json`      | `{ code, name }[]`           | Available languages                     |
-| `data/english.json`        | `string[]`                   | Common English words, frequency-ordered |
-| `data/quotes.english.json` | `{ text, source, length }[]` | English quotes                          |
+| File                     | `export default` shape       | Contents                                |
+| ------------------------ | ---------------------------- | --------------------------------------- |
+| `data/languages.ts`      | `{ code, name }[]`           | Available languages                     |
+| `data/english.ts`        | `string[]`                   | Common English words, frequency-ordered |
+| `data/quotes.english.ts` | `{ text, source, length }[]` | English quotes                          |
 
 Quote length buckets are roughly: `short` < ~100 chars, `medium` ~100–230, `long` ~230–400,
 `thicc` > ~600.
 
 ## Adding content
 
-- **More words** — edit `data/english.json` (keep it frequency-ordered), or add a new language: drop
-  a `data/<lang>.json` word file, add an entry to `data/languages.json`, and register it in the
-  `WORDS`/`QUOTES` maps in `data/index.ts`.
-- **More quotes** — append objects to `data/quotes.english.json`.
+- **More words** — edit the array in `data/english.ts` (keep it frequency-ordered), or add a new
+  language: drop a `data/<lang>.ts` word module, add an entry to `data/languages.ts`, and register it
+  in the `WORDS`/`QUOTES` maps in `data/index.ts`.
+- **More quotes** — append objects to the array in `data/quotes.english.ts`.
 
-No seeding or migration step is needed — the JSON is the source of truth. Changes take effect:
+No seeding or migration step is needed — the modules are the source of truth. Changes take effect:
 
 - **locally** — immediately under `pnpm dev` (tsx watches the source);
-- **Cloudflare Pages** — on the next `git push` (the JSON is bundled into the Function);
-- **Docker** — on `docker compose up -d --build api` (the JSON is copied into the image).
+- **Cloudflare Pages** — on the next `git push` (the data is bundled into the Function);
+- **Docker** — on `docker compose up -d --build api` (the data is compiled into the image).
 
 ## How it's bundled
 
-- **Node / Docker** — `tsc` compiles `data/index.ts`; the Dockerfile copies `src/data/*.json` into
-  `dist/data/` so the compiled `import … with { type: 'json' }` resolves at runtime.
+- **Node / Docker** — `tsc` compiles `data/*.ts` to `dist/data/*.js`, so the imports resolve at
+  runtime with no extra copy step.
 - **Cloudflare Pages** — the Function imports `@luminotype/api/app`, and esbuild inlines the imported
-  JSON into the bundle. Total corpus is ~34 KB, so this is negligible.
+  data into the bundle. Total corpus is ~34 KB, so this is negligible.

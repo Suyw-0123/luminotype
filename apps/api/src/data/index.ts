@@ -1,12 +1,13 @@
 import type { Language, Quote, QuoteLength } from '@luminotype/shared';
-import languagesData from './languages.json' with { type: 'json' };
-import englishWords from './english.json' with { type: 'json' };
-import englishQuotes from './quotes.english.json' with { type: 'json' };
+import languagesData from './languages.js';
+import englishWords from './english.js';
+import englishQuotes from './quotes.english.js';
 
 /**
- * Static content layer. The corpus is read-only JSON bundled at build time, so
- * the same code runs unchanged on Node (local dev) and on Cloudflare Pages
- * Functions (production) — no database required.
+ * Static content layer. The corpus is read-only data bundled at build time as
+ * plain TS modules (no JSON import attributes — those aren't supported by every
+ * bundler), so the same code runs unchanged on Node (local dev / Docker) and on
+ * Cloudflare Pages Functions. No database required.
  */
 
 export const languages: Language[] = languagesData;

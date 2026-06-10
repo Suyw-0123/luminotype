@@ -16,9 +16,7 @@ COPY packages/shared packages/shared
 COPY apps/api apps/api
 
 RUN pnpm --filter @luminotype/shared build \
-  && pnpm --filter @luminotype/api build \
-  && mkdir -p apps/api/dist/data \
-  && cp apps/api/src/data/*.json apps/api/dist/data/
+  && pnpm --filter @luminotype/api build
 
 # ---------------------------------------------------------------------------
 FROM node:22-alpine AS runtime
