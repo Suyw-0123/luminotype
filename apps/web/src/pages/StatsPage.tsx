@@ -11,6 +11,7 @@ function formatDate(ts: number): string {
 export function StatsPage() {
   const history = useResultsStore((s) => s.history);
   const clear = useResultsStore((s) => s.clearHistory);
+  const removeResult = useResultsStore((s) => s.removeResult);
   const [page, setPage] = useState(0);
 
   const best = history.reduce((max, r) => Math.max(max, r.wpm), 0);
@@ -55,17 +56,28 @@ export function StatsPage() {
                 <th>consistency</th>
                 <th>mode</th>
                 <th>date</th>
+                <th aria-label="delete" />
               </tr>
             </thead>
             <tbody className="text-text">
               {visible.map((r) => (
-                <tr key={r.timestamp} className="border-t border-sub-alt">
+                <tr key={r.timestamp} className="group border-t border-sub-alt">
                   <td className="py-1 text-main">{Math.round(r.wpm)}</td>
                   <td>{Math.round(r.accuracy)}%</td>
                   <td>{Math.round(r.raw)}</td>
                   <td>{Math.round(r.consistency)}%</td>
                   <td>{r.mode}</td>
                   <td className="text-sub">{formatDate(r.timestamp)}</td>
+                  <td className="text-right">
+                    <button
+                      onClick={() => removeResult(r.timestamp)}
+                      aria-label="delete result"
+                      title="delete"
+                      className="px-2 text-sub opacity-0 transition-opacity hover:text-error focus:opacity-100 group-hover:opacity-100"
+                    >
+                      ✕
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
