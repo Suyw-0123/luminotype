@@ -1,4 +1,7 @@
+import { useState } from 'react';
 import { useResultsStore } from '../store/resultsStore';
+
+const PAGE_SIZE = 10;
 
 function formatDate(ts: number): string {
   // Force English regardless of the browser's locale.
@@ -8,9 +11,17 @@ function formatDate(ts: number): string {
 export function StatsPage() {
   const history = useResultsStore((s) => s.history);
   const clear = useResultsStore((s) => s.clearHistory);
+  const [page, setPage] = useState(0);
 
   const best = history.reduce((max, r) => Math.max(max, r.wpm), 0);
   const avg = history.length > 0 ? history.reduce((sum, r) => sum + r.wpm, 0) / history.length : 0;
+
+  // History is stored most-recent-first, so page 0 is the latest ten tests.
+  const pageCount = Math.ceil(history.length / PAGE_SIZE);
+  // Clamp in case history shrank (e.g. after clearing) while on a later page.
+  const currentPage = Math.min(page, Math.max(0, pageCount - 1));
+  const start = currentPage * PAGE_SIZE;
+  const visible = history.slice(start, start + PAGE_SIZE);
 
   return (
     <div className="flex flex-col gap-6">
@@ -47,7 +58,7 @@ export function StatsPage() {
               </tr>
             </thead>
             <tbody className="text-text">
-              {history.slice(0, 50).map((r) => (
+              {visible.map((r) => (
                 <tr key={r.timestamp} className="border-t border-sub-alt">
                   <td className="py-1 text-main">{Math.round(r.wpm)}</td>
                   <td>{Math.round(r.accuracy)}%</td>
@@ -59,6 +70,29 @@ export function StatsPage() {
               ))}
             </tbody>
           </table>
+
+          {pageCount > 1 && (
+            <div className="flex items-center gap-4 text-sm text-sub">
+              <button
+                onClick={() => setPage((p) => Math.max(0, p - 1))}
+                disabled={currentPage === 0}
+                className="rounded bg-sub-alt px-3 py-1 text-text hover:bg-main hover:text-bg disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-sub-alt disabled:hover:text-text"
+              >
+                prev
+              </button>
+              <span>
+                {currentPage + 1} / {pageCount}
+              </span>
+              <button
+                onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))}
+                disabled={currentPage >= pageCount - 1}
+                className="rounded bg-sub-alt px-3 py-1 text-text hover:bg-main hover:text-bg disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-sub-alt disabled:hover:text-text"
+              >
+                next
+              </button>
+            </div>
+          )}
+
           <button
             onClick={clear}
             className="self-start rounded bg-sub-alt px-4 py-2 text-text hover:bg-error hover:text-bg"

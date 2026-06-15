@@ -20,6 +20,13 @@ body,
   height: 100%;
 }
 
+/* Scale the whole UI up to ~133% of the browser default. Tailwind sizes
+   everything in rem, so this reproduces a 133% browser-zoom look at the
+   user's default 100% zoom. Adjust this single value to rescale globally. */
+html {
+  font-size: 133%;
+}
+
 body {
   margin: 0;
   background-color: var(--bg-color);

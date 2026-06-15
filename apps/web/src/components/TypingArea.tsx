@@ -79,7 +79,7 @@ export function TypingArea({ config, onRequestNewTest }: TypingAreaProps) {
         freeMode={config.mode === 'zen'}
         visibleLines={visibleLines}
       />
-      <p className="text-center text-sm text-sub">
+      <p className="mt-28 text-center text-sm text-sub">
         {config.mode === 'zen' ? 'press enter to finish · tab to restart' : 'press tab to restart'}
       </p>
     </div>

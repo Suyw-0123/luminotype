@@ -481,7 +481,7 @@ export default [
     length: 'thicc',
   },
   {
-    text: 'Four score and seven years ago our fathers brought forth on this continent a new nation, conceived in liberty, and dedicated to the proposition that all men are created equal. Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battlefield of that war. We have come to dedicate a portion of that field as a final resting place for those who here gave their lives that that nation might live. But in a larger sense, we cannot dedicate, we cannot consecrate, we cannot hallow this ground. The brave men, living and dead, who struggled here, have consecrated it far above our poor power to add or detract.',
+    text: 'Four score and seven years ago our fathers brought forth on this continent a new nation, conceived in liberty, and dedicated to the proposition that all men are created equal. Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battlefield of that war. We have come to dedicate a portion of that field as a final resting place for those who here gave their lives that nation might live. But in a larger sense, we cannot dedicate, we cannot consecrate, we cannot hallow this ground. The brave men, living and dead, who struggled here, have consecrated it far above our poor power to add or detract.',
     source: 'Abraham Lincoln, Gettysburg Address',
     length: 'thicc',
   },
@@ -538,6 +538,36 @@ export default [
   {
     text: 'Call me Ishmael. Some years ago, never mind how long precisely, having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world. It is a way I have of driving off the spleen, and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul; whenever I find myself involuntarily pausing before coffin warehouses; then I account it high time to get to sea as soon as I can.',
     source: 'Herman Melville, Moby-Dick',
+    length: 'thicc',
+  },
+  {
+    text: 'Depression is a disorder of mood, so mysteriously painful and elusive in the way it becomes known to the self-to the mediating intellect-as to verge close to being beyond description. It thus remains nearly incomprehensible to those who have not experienced it in its extreme mode, although the gloom, the blues which people go through occasionally and associate with the general hassle of everyday existence, are of such prevalence that they give many individuals a hint of the illness in its catastrophic form.',
+    source: 'William Styron, Darkness Visible',
+    length: 'thicc',
+  },
+  {
+    text: "You will one day experience joy that matches this pain. You will cry euphoric tears at the Beach Boys, you will stare down at a baby's face as she lies asleep in your lap, you will make great friends, you will eat delicious foods you haven't tried yet, you will be able to look at a view from a high place and not assess the likelihood of dying from falling. There are books you haven't read yet that will enrich you, films you will watch while eating extra-large buckets of popcorn, and you will dance and laugh and have late-night conversations and run by the river and laugh until it hurts. Life is waiting for you.",
+    source: 'Matt Haig, Reasons to Stay Alive',
+    length: 'thicc',
+  },
+  {
+    text: "Dementors are among the foulest creatures that walk this earth. They infest the darkest, filthiest places, they glory in decay and despair, they drain peace, hope, and happiness out of the air around them. Even Muggles feel their presence, though they can't see them. Get too near a Dementor and every good feeling, every happy memory will be sucked out of you. If it can, the Dementor will feed on you long enough to reduce you to something like itself: soulless and evil. You will be left with nothing but the worst experiences of your life.",
+    source: 'J.K. Rowling, Harry Potter and the Prisoner of Azkaban',
+    length: 'thicc',
+  },
+  {
+    text: "If you know someone who's depressed, please resolve never to ask them why. Depression isn't a straightforward response to a bad situation; depression just is, like the weather. Try to understand the blackness, lethargy, hopelessness, and loneliness they're going through. Be there for them when they come through the other side. It's hard to be a friend to someone who's depressed, but it is one of the kindest, noblest, and best things you will ever do.",
+    source: 'Stephen Fry',
+    length: 'thicc',
+  },
+  {
+    text: "One of the things that baffles me is how there can be so much lingering stigma with regards to mental illness, specifically bipolar disorder. In my opinion, living with manic depression takes a tremendous amount of balls. Not unlike a tour of duty, though the bombs and bullets, in this case, come from the inside. At times, being bipolar can be an all-consuming challenge, requiring a lot of stamina and even more courage, so if you're living with this illness and functioning at all, it's something to be proud of, not ashamed of.",
+    source: 'Carrie Fisher, Wishful Drinking',
+    length: 'thicc',
+  },
+  {
+    text: 'We all build internal sea walls to keep at bay the sadnesses of life and the often overwhelming forces within our minds. In whatever way we do this-through love, work, family, faith, friends, denial, alcohol, drugs, or medication-we build these walls, stone by stone, over a lifetime. One of the most difficult problems is to construct these barriers of such a height and strength that one has a true harbor, a sanctuary away from crippling turmoil and pain, but yet low enough, and permeable enough, to let in fresh seawater that will fight the inevitable inclination toward brackishness.',
+    source: 'Kay Redfield Jamison, An Unquiet Mind',
     length: 'thicc',
   },
 ];

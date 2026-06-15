@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 export function Header() {
   return (
     <header className="flex items-center justify-between py-6">
-      <Link to="/" className="text-2xl font-bold text-main">
+      <Link to="/" className="text-3xl font-bold text-main">
         luminotype
       </Link>
       <nav className="flex gap-4 text-sub">

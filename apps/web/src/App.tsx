@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Header } from './components/Header';
-import { Footer } from './components/Footer';
 import { TestPage } from './pages/TestPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { StatsPage } from './pages/StatsPage';
@@ -24,7 +23,7 @@ export function App() {
       <div className={focusMode ? 'invisible' : undefined}>
         <Header />
       </div>
-      <main className="flex-1 py-8">
+      <main className="flex flex-1 flex-col py-8">
         <Routes>
           <Route path="/" element={<TestPage />} />
           <Route path="/settings" element={<SettingsPage />} />
@@ -32,9 +31,6 @@ export function App() {
           <Route path="/about" element={<AboutPage />} />
         </Routes>
       </main>
-      <div className={focusMode ? 'invisible' : undefined}>
-        <Footer />
-      </div>
     </div>
   );
 }
