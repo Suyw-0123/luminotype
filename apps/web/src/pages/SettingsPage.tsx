@@ -1,7 +1,7 @@
 import { useConfigStore } from '../store/configStore';
 import { themes } from '../themes/themes';
 
-const VISIBLE_LINE_OPTIONS = [3, 5, 7, 10];
+const VISIBLE_LINE_OPTIONS = [3, 4, 5, 6, 7];
 
 export function SettingsPage() {
   const c = useConfigStore();
