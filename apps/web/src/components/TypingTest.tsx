@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useConfigStore } from '../store/configStore';
-import { fetchWords, fetchQuote } from '../lib/api';
+import { fetchWords } from '../lib/api';
+import { nextQuote } from '../lib/quoteQueue';
 import type { EngineConfig } from '../engine/useTypingEngine';
 import { TypingArea } from './TypingArea';
 
@@ -37,7 +38,7 @@ export function TypingTest() {
         if (needsQuote) {
           // Quotes are only seeded for English; the word-list language (e.g.
           // english_1k) only affects generated words, not quotes.
-          const quote = await fetchQuote(QUOTE_LANGUAGE, config.quoteLength);
+          const quote = await nextQuote(QUOTE_LANGUAGE, config.quoteLength);
           if (cancelled) return;
           setQuoteText(quote.text);
         } else {

@@ -1,4 +1,10 @@
-import type { Language, WordListResponse, QuoteResponse, QuoteLength } from '@luminotype/shared';
+import type {
+  Language,
+  WordListResponse,
+  QuoteResponse,
+  QuoteListResponse,
+  QuoteLength,
+} from '@luminotype/shared';
 
 const BASE = import.meta.env.VITE_API_BASE ?? '/api';
 
@@ -32,4 +38,11 @@ export async function fetchQuote(language: string, length?: QuoteLength) {
   if (length) params.set('length', length);
   const data = await getJson<QuoteResponse>(`/quotes?${params.toString()}`);
   return data.quote;
+}
+
+export async function fetchQuotes(language: string, length?: QuoteLength) {
+  const params = new URLSearchParams({ lang: language });
+  if (length) params.set('length', length);
+  const data = await getJson<QuoteListResponse>(`/quotes/all?${params.toString()}`);
+  return data.quotes;
 }

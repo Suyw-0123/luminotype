@@ -33,6 +33,17 @@ export function getWords(lang: string, limit: number): string[] | null {
   return pool.slice(0, limit);
 }
 
+function toQuote(lang: string, pool: readonly RawQuote[], raw: RawQuote): Quote {
+  return {
+    // Position in the full language pool — stable across requests.
+    id: pool.indexOf(raw),
+    language: lang,
+    text: raw.text,
+    source: raw.source,
+    length: raw.length as QuoteLength,
+  };
+}
+
 /** A random quote for a language, optionally filtered by length. Null if none match. */
 export function getRandomQuote(lang: string, length?: QuoteLength): Quote | null {
   const pool = QUOTES[lang];
@@ -40,12 +51,15 @@ export function getRandomQuote(lang: string, length?: QuoteLength): Quote | null
   const filtered = length ? pool.filter((q) => q.length === length) : pool;
   if (filtered.length === 0) return null;
   const picked = filtered[Math.floor(Math.random() * filtered.length)]!;
-  return {
-    // Position in the full language pool — stable across requests.
-    id: pool.indexOf(picked),
-    language: lang,
-    text: picked.text,
-    source: picked.source,
-    length: picked.length as QuoteLength,
-  };
+  return toQuote(lang, pool, picked);
+}
+
+/** Every quote for a language, optionally filtered by length. The client uses
+ *  this to maintain its own shuffle queue (no repeats until the pool is
+ *  exhausted). Null if the language is unknown. */
+export function getQuotes(lang: string, length?: QuoteLength): Quote[] | null {
+  const pool = QUOTES[lang];
+  if (!pool) return null;
+  const filtered = length ? pool.filter((q) => q.length === length) : pool;
+  return filtered.map((q) => toQuote(lang, pool, q));
 }

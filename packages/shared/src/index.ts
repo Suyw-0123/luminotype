@@ -62,6 +62,10 @@ export interface QuoteResponse {
   quote: Quote;
 }
 
+export interface QuoteListResponse {
+  quotes: Quote[];
+}
+
 export interface ApiError {
   error: string;
 }
