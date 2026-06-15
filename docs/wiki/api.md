@@ -76,16 +76,50 @@ A single random quote, optionally filtered by length.
 ```
 
 A random match is picked from the in-memory pool after filtering by language and optional length.
+This endpoint is independent of `/api/quotes/all`; the web client now drives quote selection through
+the latter (see below), but `/api/quotes` remains for one-off random picks.
 
 **Errors**
 
 - `404` `{ "error": "No quote found for the given filters" }` if nothing matches.
 
+### `GET /api/quotes/all`
+
+The **full** (optionally length-filtered) quote pool. The web client fetches this once and maintains
+its own shuffle queue, so pressing Tab walks every quote before any repeat (see
+[frontend.md](frontend.md#quote-selection-shuffle-queue)).
+
+**Query params**
+
+- `lang` — language code. Default `english`.
+- `length` — one of `short` | `medium` | `long` | `thicc`. Omit for any length.
+
+**Response** — `QuoteListResponse`
+
+```json
+{
+  "quotes": [
+    {
+      "id": 12,
+      "language": "english",
+      "text": "The only way to do great work is to love what you do.",
+      "source": "Steve Jobs",
+      "length": "short"
+    }
+  ]
+}
+```
+
+**Errors**
+
+- `404` `{ "error": "Unknown language" }` if the language does not exist. An empty result for a valid
+  language + length returns `{ "quotes": [] }` (not a 404).
+
 ## Types
 
 All request/response shapes are defined in `packages/shared/src/index.ts` and imported by both the
 API routes and the web client, e.g. `Language`, `WordListResponse`, `Quote`, `QuoteResponse`,
-`QuoteLength`, and `ApiError`.
+`QuoteListResponse`, `QuoteLength`, and `ApiError`.
 
 ## Adding an endpoint
 

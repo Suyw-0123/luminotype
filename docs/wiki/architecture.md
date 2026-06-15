@@ -79,7 +79,7 @@ See [Typing Engine](./typing-engine.md) for step 3–4 and [API Reference](./api
 
 - **No backend persistence of results** keeps the system simple and privacy-friendly; the API is
   stateless and trivially cacheable.
-- **Bundled JSON instead of a database.** The corpus is small (~34 KB), read-only, and changes rarely,
+- **Bundled JSON instead of a database.** The corpus is small (~50 KB), read-only, and changes rarely,
   so a database earned nothing but operational weight. Serving it from bundled JSON lets the whole API
   run as a Cloudflare Pages Function for free with no DB to provision, while staying easy to grow.
 - **A monorepo with a shared package** gives end-to-end type safety with a single `pnpm install`.

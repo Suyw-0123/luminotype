@@ -11,18 +11,22 @@ same code runs on Node (local dev / Docker) and on Cloudflare Pages Functions.
 
 ## Data layer
 
-`apps/api/src/data/index.ts` imports the data modules and exposes three things:
+`apps/api/src/data/index.ts` imports the data modules and exposes:
 
 ```ts
 export const languages: Language[]; // the languages list
 export function getWords(lang, limit): string[] | null; // frequency-ordered slice
 export function getRandomQuote(lang, length?): Quote | null; // random, optional length filter
+export function getQuotes(lang, length?): Quote[] | null; // full pool, optional length filter
 ```
 
 - **`getWords`** returns the first `limit` words of a language's list (which is stored in frequency
   order), or `null` for an unknown language. The frontend samples randomly from this pool client-side.
 - **`getRandomQuote`** filters by language and optional length, then picks one at random. The quote's
   `id` is its index in the full language pool, so it's stable across requests.
+- **`getQuotes`** returns the whole filtered pool (each quote carrying the same stable `id`). The
+  frontend uses it to drive a client-side shuffle queue — see
+  [frontend.md](frontend.md#quote-selection-shuffle-queue).
 
 ## Data files
 
@@ -33,7 +37,8 @@ export function getRandomQuote(lang, length?): Quote | null; // random, optional
 | `data/quotes.english.ts` | `{ text, source, length }[]` | English quotes                          |
 
 Quote length buckets are roughly: `short` < ~100 chars, `medium` ~100–230, `long` ~230–400,
-`thicc` > ~600.
+`thicc` the longest passages (currently ~450–700). The bucket is a hand-set `length` field on each
+quote, not computed — pick the bucket that matches a quote's size when adding one.
 
 ## Adding content
 
@@ -53,4 +58,4 @@ No seeding or migration step is needed — the modules are the source of truth. 
 - **Node / Docker** — `tsc` compiles `data/*.ts` to `dist/data/*.js`, so the imports resolve at
   runtime with no extra copy step.
 - **Cloudflare Pages** — the Function imports `@luminotype/api/app`, and esbuild inlines the imported
-  data into the bundle. Total corpus is ~34 KB, so this is negligible.
+  data into the bundle. Total corpus is ~50 KB, so this is negligible.

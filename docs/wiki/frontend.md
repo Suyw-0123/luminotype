@@ -5,7 +5,7 @@ The frontend (`apps/web`) is a React 18 SPA built with Vite and TypeScript.
 ## Entry & routing
 
 - `src/main.tsx` mounts `<App>` inside `BrowserRouter`.
-- `src/App.tsx` defines the layout (`Header` / `Footer`) and routes:
+- `src/App.tsx` defines the layout (a `Header` above a flex-column `main`) and routes:
 
 | Route       | Page           | Purpose                                    |
 | ----------- | -------------- | ------------------------------------------ |
@@ -51,7 +51,9 @@ on every keystroke.
 - **`configStore`** (`localStorage` key `luminotype-config`) — `mode`, `time`, `wordCount`,
   `quoteLength`, `language`, `punctuation`, `numbers`, `theme`, `sound`, with their setters.
 - **`resultsStore`** (`localStorage` key `luminotype-results`) — `history: TestResult[]` capped at
-  `MAX_HISTORY = 200`, with `addResult` and `clearHistory`.
+  `MAX_HISTORY = 200` (newest-first), with `addResult`, `removeResult(timestamp)` (delete a single
+  result), and `clearHistory`. `StatsPage` paginates the history (10 per page) and exposes the
+  per-row delete via `removeResult`.
 
 ## Theming
 
@@ -70,8 +72,9 @@ Adding a theme = appending one entry to the `themes` array.
 
 ## The scrolling word view
 
-`WordsDisplay` keeps the typing area a **fixed height** (`VISIBLE_LINES = 3`) and scrolls the text
-vertically to follow the cursor, instead of letting the page grow and forcing the user to scroll.
+`WordsDisplay` keeps the typing area a **fixed height** — `visibleLines` lines tall (from
+`configStore`, default 3, selectable in settings) — and scrolls the text vertically to follow the
+cursor, instead of letting the page grow and forcing the user to scroll.
 
 - The outer container is fixed-height with `overflow: hidden`.
 - The inner word container is translated with `translateY(-offset)` and a short CSS transition.
@@ -86,7 +89,23 @@ vertically to follow the cursor, instead of letting the page grow and forcing th
 
 - `fetchLanguages()` → `Language[]`
 - `fetchWords(language, limit = 1000)` → `string[]` (in-memory cached per `language:limit`)
-- `fetchQuote(language, length?)` → `Quote`
+- `fetchQuote(language, length?)` → `Quote` (one random quote; still used for one-off picks)
+- `fetchQuotes(language, length?)` → `Quote[]` (the full filtered pool, for the shuffle queue)
+
+## Quote selection (shuffle queue)
+
+In quote mode, pressing Tab requests a new quote. Rather than independent random draws (which can
+repeat back-to-back), `src/lib/quoteQueue.ts` treats the pool as a **shuffle bag**:
+
+- On first use it calls `fetchQuotes` once and Fisher–Yates-shuffles an index order. Each Tab walks
+  that order, so **every quote is shown once before any repeat**.
+- When a round is exhausted it reshuffles; if the new round would open with the quote that just
+  ended the previous one, it swaps it forward so **Tab never immediately repeats**.
+- State is a module-level singleton keyed by `lang:length`, so it survives `TypingArea` remounting on
+  each Tab and any route navigation. The fetched pool is cached there too. (It is not persisted, so a
+  full page reload starts a fresh shuffle.)
+
+`TypingTest` calls `nextQuote(language, length)` for both the initial quote and every Tab refresh.
 
 ## Build
 
