@@ -570,4 +570,34 @@ export default [
     source: 'Kay Redfield Jamison, An Unquiet Mind',
     length: 'thicc',
   },
+  {
+    text: "The word 'love' is most often defined as a noun, yet all the more astute theorists of love acknowledge that we would all love better if we used it as a verb. I spent years searching for a meaningful definition of the word 'love,' and was deeply relieved when I found one. Echoing the work of Erich Fromm, the definition of love as 'the will to extend one's self for the purpose of nurturing one's own or another's spiritual growth' is the one I find most useful. Love is as love does. Love is an act of will-namely, both an intention and an action.",
+    source: 'bell hooks, All About Love',
+    length: 'thicc',
+  },
+  {
+    text: 'For one human being to love another: that is perhaps the most difficult of all our tasks, the ultimate, the last test and proof, the work for which all other work is but preparation. That is why young people, who are beginners in everything, cannot yet know love: they have to learn it. With their whole being, with all their forces, gathered around their lonely, timid, upward-beating heart, they must learn to love. But learning-time is always a long, secluded time ahead and far on into life.',
+    source: 'Rainer Maria Rilke, Letters to a Young Poet',
+    length: 'thicc',
+  },
+  {
+    text: 'Let there be spaces in your togetherness, and let the winds of the heavens dance between you. Love one another, but make not a bond of love: let it rather be a moving sea between the shores of your souls. Fill each other’s cup but drink not from one cup. Give one another of your bread but eat not from the same loaf. Sing and dance together and be joyous, but let each one of you be alone, even as the strings of a lute are alone though they quiver with the same music.',
+    source: 'Kahlil Gibran, The Prophet',
+    length: 'thicc',
+  },
+  {
+    text: 'Love is a temporary madness; it erupts like volcanoes and then subsides. And when it subsides you have to make a decision. You have to work out whether your roots have so entwined together that it is inconceivable that you should ever part. Because this is what love is. Love is not breathlessness, it is not excitement, it is not the promulgation of promises of eternal passion. That is just being in love, which any fool can do. Love itself is what is left over when being in love has burned away, and this is both an art and a fortunate accident.',
+    source: 'Louis de Bernieres, Captain Corelli’s Mandolin',
+    length: 'thicc',
+  },
+  {
+    text: 'Love is not primarily a relationship to a specific person; it is an attitude, an orientation of character which determines the relatedness of a person to the world as a whole, not toward one object of love. If a person loves only one other person and is indifferent to the rest, his love is not love but a symbiotic attachment, or an enlarged egotism. Most people believe that love is constituted by the object, not by the faculty. They think that to love is simple, but that to find the right object to love is difficult.',
+    source: 'Erich Fromm, The Art of Loving',
+    length: 'thicc',
+  },
+  {
+    text: 'Our deepest fear is not that we are inadequate. Our deepest fear is that we are powerful beyond measure. It is our light, not our darkness, that most frightens us. We ask ourselves, who am I to be brilliant, gorgeous, talented, fabulous? Actually, who are you not to be? Your playing small does not serve the world. There is nothing enlightened about shrinking so that other people will not feel insecure around you. And as we let our own light shine, we unconsciously give other people permission to do the same.',
+    source: 'Marianne Williamson, A Return to Love',
+    length: 'thicc',
+  },
 ];
