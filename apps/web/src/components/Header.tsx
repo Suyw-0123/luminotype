@@ -6,7 +6,7 @@ export function Header() {
       <Link to="/" className="text-3xl font-bold text-main">
         luminotype
       </Link>
-      <nav className="flex gap-4 text-sub">
+      <nav className="flex gap-4 text-sub text-lg">
         <Link to="/" className="hover:text-text">
           test
         </Link>
