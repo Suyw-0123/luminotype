@@ -566,12 +566,12 @@ export default [
     length: 'thicc',
   },
   {
-    text: 'We all build internal sea walls to keep at bay the sadnesses of life and the often overwhelming forces within our minds. In whatever way we do this-through love, work, family, faith, friends, denial, alcohol, drugs, or medication-we build these walls, stone by stone, over a lifetime. One of the most difficult problems is to construct these barriers of such a height and strength that one has a true harbor, a sanctuary away from crippling turmoil and pain, but yet low enough, and permeable enough, to let in fresh seawater that will fight the inevitable inclination toward brackishness.',
+    text: 'We all build internal sea walls to keep at bay the sadnesses of life and the often overwhelming forces within our minds. In whatever way we do this-through love, work, family, faith, friends, denial, alcohol, drugs, or medication we build these walls, stone by stone, over a lifetime. One of the most difficult problems is to construct these barriers of such a height and strength that one has a true harbor, a sanctuary away from crippling turmoil and pain, but yet low enough, and permeable enough, to let in fresh seawater that will fight the inevitable inclination toward brackishness.',
     source: 'Kay Redfield Jamison, An Unquiet Mind',
     length: 'thicc',
   },
   {
-    text: "The word 'love' is most often defined as a noun, yet all the more astute theorists of love acknowledge that we would all love better if we used it as a verb. I spent years searching for a meaningful definition of the word 'love,' and was deeply relieved when I found one. Echoing the work of Erich Fromm, the definition of love as 'the will to extend one's self for the purpose of nurturing one's own or another's spiritual growth' is the one I find most useful. Love is as love does. Love is an act of will-namely, both an intention and an action.",
+    text: "The word 'love' is most often defined as a noun, yet all the more astute theorists of love acknowledge that we would all love better if we used it as a verb. I spent years searching for a meaningful definition of the word 'love', and was deeply relieved when I found one. Echoing the work of Erich Fromm, the definition of love as 'the will to extend one's self for the purpose of nurturing one's own or another's spiritual growth' is the one I find most useful. Love is as love does. Love is an act of will-namely, both an intention and an action.",
     source: 'bell hooks, All About Love',
     length: 'thicc',
   },
@@ -581,13 +581,13 @@ export default [
     length: 'thicc',
   },
   {
-    text: 'Let there be spaces in your togetherness, and let the winds of the heavens dance between you. Love one another, but make not a bond of love: let it rather be a moving sea between the shores of your souls. Fill each other’s cup but drink not from one cup. Give one another of your bread but eat not from the same loaf. Sing and dance together and be joyous, but let each one of you be alone, even as the strings of a lute are alone though they quiver with the same music.',
+    text: "Let there be spaces in your togetherness, and let the winds of the heavens dance between you. Love one another, but make not a bond of love: let it rather be a moving sea between the shores of your souls. Fill each other's cup but drink not from one cup. Give one another of your bread but eat not from the same loaf. Sing and dance together and be joyous, but let each one of you be alone, even as the strings of a lute are alone though they quiver with the same music.",
     source: 'Kahlil Gibran, The Prophet',
     length: 'thicc',
   },
   {
     text: 'Love is a temporary madness; it erupts like volcanoes and then subsides. And when it subsides you have to make a decision. You have to work out whether your roots have so entwined together that it is inconceivable that you should ever part. Because this is what love is. Love is not breathlessness, it is not excitement, it is not the promulgation of promises of eternal passion. That is just being in love, which any fool can do. Love itself is what is left over when being in love has burned away, and this is both an art and a fortunate accident.',
-    source: 'Louis de Bernieres, Captain Corelli’s Mandolin',
+    source: "Louis de Bernieres, Captain Corelli's Mandolin",
     length: 'thicc',
   },
   {
