@@ -90,6 +90,34 @@ export const themes: Theme[] = [
       errorExtra: '#990000',
     },
   },
+  {
+    id: 'gruvbox',
+    name: 'gruvbox',
+    colors: {
+      bg: '#282828',
+      main: '#fe8019',
+      caret: '#fe8019',
+      sub: '#665c54',
+      subAlt: '#1d2021',
+      text: '#ebdbb2',
+      error: '#fb4934',
+      errorExtra: '#cc241d',
+    },
+  },
+  {
+    id: 'solarized-light',
+    name: 'solarized light',
+    colors: {
+      bg: '#fdf6e3',
+      main: '#268bd2',
+      caret: '#268bd2',
+      sub: '#93a1a1',
+      subAlt: '#eee8d5',
+      text: '#657b83',
+      error: '#dc322f',
+      errorExtra: '#a52521',
+    },
+  },
 ];
 
 export const DEFAULT_THEME_ID = 'light';

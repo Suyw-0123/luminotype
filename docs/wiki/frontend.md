@@ -65,7 +65,8 @@ Themes are pure CSS-variable swaps, defined in `src/themes/themes.ts`.
   `document.documentElement`.
 - `tailwind.config.ts` maps Tailwind color names to those variables (e.g. `bg: 'var(--bg-color)'`),
   so every utility class re-themes instantly with **no re-render** — only the CSS variables change.
-- Built-in themes: `light` (default, `DEFAULT_THEME_ID`), `dark`, `nord`, `dracula`, `matrix`.
+- Built-in themes: `light` (default, `DEFAULT_THEME_ID`), `dark`, `nord`, `dracula`, `matrix`,
+  `gruvbox`, `solarized light`.
   `index.css` seeds the `:root` fallback to the light palette for the first paint.
 
 Adding a theme = appending one entry to the `themes` array.
