@@ -93,6 +93,12 @@ export interface TestResult {
   /** Percentage 0-100; lower variance => higher consistency. */
   consistency: number;
   chars: CharCounts;
+  /**
+   * Per-second instantaneous WPM samples captured during the test — the same
+   * series the consistency stat is derived from. `wpmSeries[i]` is the WPM for
+   * second `i + 1`. Optional: results saved before this field existed lack it.
+   */
+  wpmSeries?: number[];
   /** Elapsed seconds of active typing. */
   durationSeconds: number;
   mode: TestMode;

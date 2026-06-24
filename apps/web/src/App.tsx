@@ -4,6 +4,7 @@ import { Header } from './components/Header';
 import { TestPage } from './pages/TestPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { StatsPage } from './pages/StatsPage';
+import { ResultDetailPage } from './pages/ResultDetailPage';
 import { AboutPage } from './pages/AboutPage';
 import { useConfigStore } from './store/configStore';
 import { useUiStore } from './store/uiStore';
@@ -28,6 +29,7 @@ export function App() {
           <Route path="/" element={<TestPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/stats" element={<StatsPage />} />
+          <Route path="/stats/:timestamp" element={<ResultDetailPage />} />
           <Route path="/about" element={<AboutPage />} />
         </Routes>
       </main>

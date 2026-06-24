@@ -117,6 +117,7 @@ export function useTypingEngine(config: EngineConfig): TypingEngine {
       accuracy: round2(calculateAccuracy(counts.correct, keystrokes)),
       consistency: round2(calculateConsistency(samplesRef.current)),
       chars: counts,
+      wpmSeries: [...samplesRef.current],
       durationSeconds: round2(elapsedMs / 1000),
       mode: cfg.mode,
       language: cfg.language,

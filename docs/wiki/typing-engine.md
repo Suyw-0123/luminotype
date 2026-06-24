@@ -49,13 +49,13 @@ forcing renders.
 | `result`       | Final `TestResult` once finished            |
 | `live`         | `{ wpm, timer }` for the on-screen stat bar |
 
-| Ref                               | Purpose                                                         |
-| --------------------------------- | --------------------------------------------------------------- |
-| `stateRef`                        | Mirror of the above state, read by the interval and key handler |
-| `configRef`                       | Latest `EngineConfig`                                           |
-| `startRef`                        | `performance.now()` at test start                               |
-| `samplesRef`                      | Per-second WPM samples (for consistency)                        |
-| `lastSecondRef`, `lastCorrectRef` | Bookkeeping for per-second sampling                             |
+| Ref                               | Purpose                                                                        |
+| --------------------------------- | ------------------------------------------------------------------------------ |
+| `stateRef`                        | Mirror of the above state, read by the interval and key handler                |
+| `configRef`                       | Latest `EngineConfig`                                                          |
+| `startRef`                        | `performance.now()` at test start                                              |
+| `samplesRef`                      | Per-second WPM samples (for consistency; also saved as `TestResult.wpmSeries`) |
+| `lastSecondRef`, `lastCorrectRef` | Bookkeeping for per-second sampling                                            |
 
 `wordIndex` is derived as `typedWords.length` (the active word is `words[wordIndex]`).
 

@@ -7,12 +7,13 @@ The frontend (`apps/web`) is a React 18 SPA built with Vite and TypeScript.
 - `src/main.tsx` mounts `<App>` inside `BrowserRouter`.
 - `src/App.tsx` defines the layout (a `Header` above a flex-column `main`) and routes:
 
-| Route       | Page           | Purpose                                    |
-| ----------- | -------------- | ------------------------------------------ |
-| `/`         | `TestPage`     | The typing test (config bar + typing area) |
-| `/settings` | `SettingsPage` | Theme, language, sound                     |
-| `/stats`    | `StatsPage`    | Local results history                      |
-| `/about`    | `AboutPage`    | About the app                              |
+| Route               | Page               | Purpose                                               |
+| ------------------- | ------------------ | ----------------------------------------------------- |
+| `/`                 | `TestPage`         | The typing test (config bar + typing area)            |
+| `/settings`         | `SettingsPage`     | Theme, language, sound                                |
+| `/stats`            | `StatsPage`        | Local results history (WPM chart + table)             |
+| `/stats/:timestamp` | `ResultDetailPage` | Full detail for one result (looked up by `timestamp`) |
+| `/about`            | `AboutPage`        | About the app                                         |
 
 `App` also applies the active theme via `useEffect(() => applyTheme(theme), [theme])`.
 
@@ -40,7 +41,14 @@ src/
   parameters change.
 - **`ConfigBar`** — mode and per-mode option selectors (time/word-count/quote-length, punctuation,
   numbers), bound to the `configStore`.
-- **`StatBar`** / **`Results`** — live progress and the final score screen.
+- **`StatBar`** / **`Results`** — live progress and the final score screen. `Results` also renders a
+  `TestWpmGraph` of the just-finished test.
+- **`WpmChart`** — a dependency-free SVG line chart of WPM **across tests**, shown on `StatsPage`. It
+  scales to its container via a fixed `viewBox` and re-themes through `currentColor` (no charting
+  library). Each point is clickable, navigating to that result's detail page.
+- **`TestWpmGraph`** — same SVG/theming approach, but plots WPM **within a single test**: the
+  per-second `wpmSeries` carried on a `TestResult`. Shown on the `Results` screen and the result
+  detail page. Needs ≥ 2 samples (a test lasting ≳ 2 s), otherwise renders nothing.
 
 ## State management (Zustand)
 
@@ -52,8 +60,9 @@ on every keystroke.
   `quoteLength`, `language`, `punctuation`, `numbers`, `theme`, `sound`, with their setters.
 - **`resultsStore`** (`localStorage` key `luminotype-results`) — `history: TestResult[]` capped at
   `MAX_HISTORY = 200` (newest-first), with `addResult`, `removeResult(timestamp)` (delete a single
-  result), and `clearHistory`. `StatsPage` paginates the history (10 per page) and exposes the
-  per-row delete via `removeResult`.
+  result), and `clearHistory`. `StatsPage` shows a WPM trend chart over the full history, then a
+  paginated table (10 per page); each row is clickable (→ `/stats/:timestamp`, the per-result detail
+  page) and exposes per-row delete via `removeResult`.
 
 ## Theming
 

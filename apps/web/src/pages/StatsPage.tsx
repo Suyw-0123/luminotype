@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useResultsStore } from '../store/resultsStore';
+import { WpmChart } from '../components/WpmChart';
 
 const PAGE_SIZE = 10;
 
@@ -12,10 +14,14 @@ export function StatsPage() {
   const history = useResultsStore((s) => s.history);
   const clear = useResultsStore((s) => s.clearHistory);
   const removeResult = useResultsStore((s) => s.removeResult);
+  const navigate = useNavigate();
   const [page, setPage] = useState(0);
 
   const best = history.reduce((max, r) => Math.max(max, r.wpm), 0);
   const avg = history.length > 0 ? history.reduce((sum, r) => sum + r.wpm, 0) / history.length : 0;
+
+  // History is most-recent-first; the chart reads left-to-right oldest-to-newest.
+  const chronological = useMemo(() => [...history].reverse(), [history]);
 
   // History is stored most-recent-first, so page 0 is the latest ten tests.
   const pageCount = Math.ceil(history.length / PAGE_SIZE);
@@ -47,6 +53,8 @@ export function StatsPage() {
         <p className="text-sub">No tests yet. Go type something!</p>
       ) : (
         <>
+          <WpmChart results={chronological} onPointClick={(ts) => navigate(`/stats/${ts}`)} />
+
           <table className="w-full text-left text-sm">
             <thead className="text-sub">
               <tr>
@@ -61,7 +69,11 @@ export function StatsPage() {
             </thead>
             <tbody className="text-text">
               {visible.map((r) => (
-                <tr key={r.timestamp} className="group border-t border-sub-alt">
+                <tr
+                  key={r.timestamp}
+                  onClick={() => navigate(`/stats/${r.timestamp}`)}
+                  className="group cursor-pointer border-t border-sub-alt hover:bg-sub-alt"
+                >
                   <td className="py-1 text-main">{Math.round(r.wpm)}</td>
                   <td>{Math.round(r.accuracy)}%</td>
                   <td>{Math.round(r.raw)}</td>
@@ -70,7 +82,11 @@ export function StatsPage() {
                   <td className="text-sub">{formatDate(r.timestamp)}</td>
                   <td className="text-right">
                     <button
-                      onClick={() => removeResult(r.timestamp)}
+                      onClick={(e) => {
+                        // Don't navigate to the detail page when deleting a row.
+                        e.stopPropagation();
+                        removeResult(r.timestamp);
+                      }}
                       aria-label="delete result"
                       title="delete"
                       className="px-2 text-sub opacity-0 transition-opacity hover:text-error focus:opacity-100 group-hover:opacity-100"
